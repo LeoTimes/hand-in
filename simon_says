@@ -1,0 +1,92 @@
+# Add your Python code here. E.g.
+from microbit import *
+import random
+k=4
+count=0
+O=[]
+NW = Image("99000:99000:00000:00000:00000")
+NE = Image("00099:00099:00000:00000:00000")
+SE = Image("00000:00000:00000:00099:00099")
+SW = Image("00000:00000:00000:99000:99000")
+a=Image("99000:99000:00000:00000:00000:")
+b=Image("00099:00099:00000:00000:00000:")
+c=Image("00000:00000:00000:99000:99000:")
+d=Image("00000:00000:00000:00099:00099:")
+L=[a,b,c,d]
+q="yes"
+
+
+sequ = [NW,NE,SE,SW]
+restart=True
+while True:
+    if restart:
+        if q=="yes":
+        
+            count=0
+            
+            if k==4:
+                for i in range(k):
+                    c=random.randint(0,3)
+                    O.append(c)
+                k+=1
+            c=random.randint(0,3)
+            O.append(c)
+            for i in range (k):                 
+                display.show(L[O[i]])
+                sleep(800)
+                display.clear()                    
+                sleep(800)
+                k+=1
+                q="no"
+            display.scroll(L[O[0]])
+            display.scroll(L[O[1]])
+            display.scroll(L[O[2]])
+            display.scroll(L[O[3]])
+                    
+            
+            
+    
+    
+    
+        
+         
+                            
+        
+       
+        while count!=len(O):
+            LR = accelerometer.get_x()
+            WD = accelerometer.get_y()
+            if LR > 100 and WD > 100:
+                display.show(SE)
+                if button_a.get_presses():
+                    if SE==L[O[count]]:
+                        count+=1
+                    else:
+                        break
+            elif LR < -100 and WD < 100:
+                display.show(NW)
+                if button_a.get_presses():
+                    if NW==L[O[count]]:
+                        count+=1
+                    else:
+                        break
+            elif LR < 100 and WD < 100:
+                display.show(NE)
+                if button_a.get_presses():
+                    if NE==L[O[count]]:
+                        count+=1
+                    else:
+                        break
+            elif LR < -100 and WD > 100:
+                display.show(SW)
+                if button_a.get_presses():
+                    if SW==L[O[count]]:
+                        count+=1
+                    else:
+                        break
+        restart = False
+        q="yes"
+    
+    display.scroll("GAME OVER")
+    if button_a.get_presses():
+        restart = True
